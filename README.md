@@ -4,6 +4,8 @@ Module to show open merge requests in Gitlab. Works  with self hosted instance a
 This follows the gitlab api for merge requests pretty closely, so you should be able to easily configure
 this to return the items you care about.
 
+![Screen Shot](Sample.png)
+
 # Installation/Setup
 1. You need to get a Personal Access Token from your gitlab instance. This token only needs the `read-api` scope. [See Creating a personal access token] (https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html#creating-a-personal-access-token).
 2. MagicMirror requeires Third Party modules to be cloned in the modules directory.
