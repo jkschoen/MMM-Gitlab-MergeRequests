@@ -1,0 +1,54 @@
+.MMM-Gitlab-MergeRequests .symbol {
+    padding-left: 10px;
+    padding-right: 0px;
+    font-size: 80%;
+    vertical-align: top;
+}
+  
+.MMM-Gitlab-MergeRequests .symbol span {
+    display: inline-block;
+    transform: translate(0, 2px);
+}
+  
+.MMM-Gitlab-MergeRequests .title {
+    padding-left: 0;
+    padding-right: 0;
+}
+  
+.MMM-Gitlab-MergeRequests .time {
+    padding-left: 30px;
+    text-align: right;
+    vertical-align: top;
+}
+
+.MMM-Gitlab-MergeRequests .small .avatar {
+    padding-right: 10px;
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.MMM-Gitlab-MergeRequests .medium .avatar  {
+    padding-right: 10px;
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.MMM-Gitlab-MergeRequests .large .avatar  {
+    padding-right: 10px;
+    vertical-align: middle;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+}
+
+.MMM-Gitlab-MergeRequests .canMerge {
+    color: greenyellow;
+}
+
+.MMM-Gitlab-MergeRequests .canNotMerge {
+    color: red;
+}

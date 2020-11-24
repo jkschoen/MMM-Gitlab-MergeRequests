@@ -1,0 +1,12 @@
+{
+    "name": "MMM-Gitlab-MergeRequests",
+    "version": "1.0.0",
+    "description": "Module to show open merge requests in Gitlab. Works  with self hosted instance as well as gitlab.com.",
+    "main": "mr.js",
+    "author": "Jacob Schoen",
+    "license": "MIT",
+    "devDependencies": {
+    },
+    "dependencies": {
+    }
+  }
