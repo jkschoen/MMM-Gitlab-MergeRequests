@@ -45,6 +45,7 @@ this to return the items you care about.
 | `fade`           | Fade the future events to black. (Gradient) <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true` |
 | `fadePoint`      | Where to start fade? <br><br> **Possible values:** `0` (top of the list) - `1` (bottom of list) <br> **Default value:** `0.25`
 | `animationSpeed` | Speed of the update animation. (Milliseconds) <br><br> **Possible values:** `0` - `5000` <br> **Default value:** `2000` (2 seconds)
+| `combineNames`   | Combines multiple merge requests into single line when title are identical. Helpful when working an issue across multiple repositories. **Possible values:** `true` or `false` <br> **Default value:** `false` |
 | `state`          | Return all merge requests or just those that are in specific state. opened, closed, locked, or merged. <br><br> **Possible values:** `opened`, `closed`, `locked`, or `merged`
 | `orderBy`        | Return requests ordered by `created_at` or `updated_at` fields. <br><br> **Possible values:**  `created_at` or `updated_at` <br> **Default value:** `created_at`
 | `sort`           | Return requests sorted in `asc` or `desc` order.  <br><br> **Possible values:**  `asc` or `desc` <br> **Default value:** `desc`

@@ -15,6 +15,7 @@ Module.register("MMM-Gitlab-MergeRequests",{
         sort: "desc",
         scope: "created_by_me",
         animationSpeed: 2000,
+        combineNames: false,
         milestone: "",
         labels: "",
         createdAfter: "",
@@ -48,7 +49,7 @@ Module.register("MMM-Gitlab-MergeRequests",{
   start: function () {
     Log.log("Starting module: " + this.name);
     const url = this.getRequestUrl();
-    this.addGitlab(url, this.config.accessToken, this.config.reloadInterval);
+    this.addGitlab(url, this.config.accessToken, this.config.reloadInterval, this.config.maxEntries, this.config.combineNames);
 
     // var self = this;
     // setInterval(function () {
@@ -130,36 +131,15 @@ Module.register("MMM-Gitlab-MergeRequests",{
         titleWrapper.innerHTML = this.titleTransform(mergeRequest.title, this.config.wrapEvents, this.config.maxTitleLength, this.config.maxTitleLines);
         titleWrapper.className = "title"
         mrWrapper.appendChild(titleWrapper);
-        //created on
-        // var now = new Date();
-        // var oneSecond = 1000; // 1,000 milliseconds
-        // var oneMinute = oneSecond * 60;
-        // var oneHour = oneMinute * 60;
-        // var oneDay = oneHour * 24;   
+
         var timeWrapper = document.createElement("td");
-        // if (now - mergeRequest.created_at < 2 * oneDay) {
-        //     // This merge request was created withing is within the last 48 hours (2 days)
-        //     if (now - mergeRequest.created_at < 24 * oneHour) {
-                // If merge request  is within 24 hour, display 'in xxx' time format or moment.fromNow()
-                moment.utc(mergeRequest.created_at,"YYYY-MM-DDTHH:mm:ss")
-        timeWrapper.innerHTML = this.capFirst(moment.utc(mergeRequest.created_at,"YYYY-MM-DDTHH:mm:ss").fromNow());
-        //     } else {                
-        //         // Otherwise just say 'Today/Tomorrow at such-n-such time'
-        //         timeWrapper.innerHTML = this.capFirst(moment(mergeRequest.created_at, "x").calendar());
-        //     }
-        // } else {                
-        //     timeWrapper.innerHTML = this.capFirst(moment(event.startDate, "x").fromNow());
-        // }
+        moment.utc(mergeRequest.created_at,"YYYY-MM-DDTHH:mm:ss")
+        timeWrapper.innerHTML = this.capFirst(moment.utc(mergeRequest.created_at,"YYYY-MM-DDTHH:mm:ss").fromNow()); //gitlab returns time utc by default
         timeWrapper.className = "time light";
         mrWrapper.appendChild(timeWrapper);
-        //build status
+
         var symbolWrapper = document.createElement("td");
-        // if (this.config.colored && this.config.coloredSymbolOnly) {
-        //     symbolWrapper.style.cssText = "color:" + this.colorForUrl(event.url);
-        // }
-
         symbolWrapper.className = "symbol align-right";
-
         var symbol = document.createElement("span");
         if(mergeRequest.merge_status === 'can_be_merged'){
             symbol.className = "fa fa-fw fa-check-circle canMerge";
@@ -171,6 +151,7 @@ Module.register("MMM-Gitlab-MergeRequests",{
         }
         symbolWrapper.appendChild(symbol);
         mrWrapper.appendChild(symbolWrapper);
+
         wrapper.appendChild(mrWrapper);
     }
 		return wrapper;
@@ -181,7 +162,7 @@ Module.register("MMM-Gitlab-MergeRequests",{
       if(!url.endsWith('/') && !url.endsWith('\\')){
           url = url + "/api/v4/merge_requests?";
       }
-      url = url + "page=1&per_page="+this.config.maxEntries;
+      url = url + "page=1&per_page="+(this.config.maxEntries*2);
       url = url + "&state="+this.config.state;
       url = url + "&order_by="+this.config.orderBy;
       url = url + "&sort="+this.config.sort;
@@ -250,12 +231,14 @@ Module.register("MMM-Gitlab-MergeRequests",{
       }
       return url;
   },
-  addGitlab: function (url, accessToken, reloadInterval) {
+  addGitlab: function (url, accessToken, reloadInterval, maxEntries, combineNames) {
 		this.sendSocketNotification("ADD_GITLAB_INSTANCE", {
 			id: this.identifier,
 			url: url,
 			accessToken: accessToken,
-			reloadInterval: reloadInterval 
+      reloadInterval: reloadInterval,
+      maxEntries: maxEntries,
+      combineNames: combineNames
 		});
 	},
   titleTransform: function (string, wrapEvents, maxLength, maxTitleLines) {

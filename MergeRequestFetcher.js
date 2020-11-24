@@ -1,7 +1,7 @@
 const Log = require("../../js/logger.js");
 const request = require("request");
 
-const MergeRequestFetcher = function (url, accessToken, reloadInterval) {
+const MergeRequestFetcher = function (url, accessToken, reloadInterval, maxEntries, combineName) {
     const self = this;
     let reloadTimer = null;
 
@@ -32,7 +32,23 @@ const MergeRequestFetcher = function (url, accessToken, reloadInterval) {
 				return;
             }
             
-            mergeRequests = JSON.parse(requestData);
+			var extraData = JSON.parse(requestData);
+			
+			var dataDictionary = {};
+			for(i in extraData){
+				var item = extraData[i]
+				if(!dataDictionary[item.title]){
+					dataDictionary[item.title] = item;
+				} else if(item.merge_status !== "can_be_merged" && item.merge_status !== "unchecked"){
+					dataDictionary[item.title].merge_status = item.merge_status
+					
+				} //otherwise we do not need to do anything
+				if(Object.keys(dataDictionary).length == maxEntries){
+					break;
+				}
+			}
+			mergeRequests = Object.values(dataDictionary);	
+
             self.broadcastEvents();
 			scheduleTimer();
         });

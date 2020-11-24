@@ -13,11 +13,11 @@ module.exports = NodeHelper.create({
 	// Override socketNotificationReceived method.
 	socketNotificationReceived: function (notification, payload) {
 		if (notification === "ADD_GITLAB_INSTANCE") {
-			this.createFetcher(payload.url, payload.accessToken, payload.reloadInterval, payload.id);
+			this.createFetcher(payload.url, payload.accessToken, payload.reloadInterval, payload.maxEntries, payload.combineNames, payload.id);
 		}
 	},
 
-	createFetcher: function (url, accessToken, reloadInterval, identifier) {
+	createFetcher: function (url, accessToken, reloadInterval, maxEntries, combineNames, identifier) {
 		var self = this;
 
 		if (!validUrl.isUri(url)) {
@@ -28,7 +28,7 @@ module.exports = NodeHelper.create({
 		var fetcher;
 		if (typeof self.fetchers[identifier + url] === "undefined") {
 			Log.log("Create new Merge Request fetcher for url: " + url + " - Interval: " + reloadInterval);
-			fetcher = new MergeRequestFetcher(url, accessToken, reloadInterval);
+			fetcher = new MergeRequestFetcher(url, accessToken, reloadInterval, maxEntries, combineNames);
 
 			fetcher.onReceive(function (fetcher) {                
                 Log.warn('here 1');
