@@ -31,7 +31,6 @@ module.exports = NodeHelper.create({
 			fetcher = new MergeRequestFetcher(url, accessToken, reloadInterval, maxEntries, combineNames);
 
 			fetcher.onReceive(function (fetcher) {                
-                Log.warn('here 1');
 				self.sendSocketNotification("MERGE_REQUESTS", {
 					id: identifier,
 					url: fetcher.url(),
@@ -52,14 +51,7 @@ module.exports = NodeHelper.create({
         } 
         else {
 			Log.log("Use existing merge request fetcher for url: " + url);
-			fetcher = self.fetchers[identifier + url];
-            fetcher.broadcastEvents();
-            
-            self.sendSocketNotification("MR_FETCH_ERROR", {
-                id: identifier,
-                url: fetcher.url(),
-                error: error
-            });
+			fetcher = self.fetchers[identifier + url];            
 		}
 
 		fetcher.startFetch();
