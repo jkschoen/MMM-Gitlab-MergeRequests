@@ -13,22 +13,22 @@ module.exports = NodeHelper.create({
 	// Override socketNotificationReceived method.
 	socketNotificationReceived: function (notification, payload) {
 		if (notification === "ADD_GITLAB_INSTANCE") {
-			this.createFetcher(payload.url, payload.accessToken, payload.reloadInterval, payload.maxEntries, payload.combineNames, payload.id);
+			this.createFetcher(payload.config, payload.id);
 		}
 	},
 
-	createFetcher: function (url, accessToken, reloadInterval, maxEntries, combineNames, identifier) {
+	createFetcher: function (config, identifier) {
 		var self = this;
 
-		if (!validUrl.isUri(url)) {
-			self.sendSocketNotification("MR_INCORRECT_URL", { id: identifier, url: url });
+		if (!validUrl.isUri(config.gitlabUrl)) {
+			self.sendSocketNotification("MR_INCORRECT_URL", { id: identifier, url: config.gitlabUrl });
 			return;
 		}
 
 		var fetcher;
-		if (typeof self.fetchers[identifier + url] === "undefined") {
-			Log.log("Create new Merge Request fetcher for url: " + url + " - Interval: " + reloadInterval);
-			fetcher = new MergeRequestFetcher(url, accessToken, reloadInterval, maxEntries, combineNames);
+		if (typeof self.fetchers[identifier + config.gitlabUrl] === "undefined") {
+			Log.log("Create new Merge Request fetcher for url: " + config.gitlabUrl + " - Interval: " + config.reloadInterval);
+			fetcher = new MergeRequestFetcher(config);
 
 			fetcher.onReceive(function (fetcher) {                
 				self.sendSocketNotification("MERGE_REQUESTS", {
@@ -47,11 +47,11 @@ module.exports = NodeHelper.create({
 				});
 			});
 
-			self.fetchers[identifier + url] = fetcher;
+			self.fetchers[identifier + config.gitlabUrl] = fetcher;
         } 
         else {
-			Log.log("Use existing merge request fetcher for url: " + url);
-			fetcher = self.fetchers[identifier + url];            
+			Log.log("Use existing merge request fetcher for url: " + config.gitlabUrlrl);
+			fetcher = self.fetchers[identifier + config.gitlabUrl];            
 		}
 
 		fetcher.startFetch();

@@ -13,6 +13,7 @@
 .MMM-Gitlab-MergeRequests .title {
     padding-left: 0;
     padding-right: 0;
+    text-align: left;
 }
   
 .MMM-Gitlab-MergeRequests .time {
@@ -45,8 +46,6 @@
     margin-right: 10px;
 }
 
-
-
 .MMM-Gitlab-MergeRequests .small .time {
     min-width: 130px;
 }
@@ -65,4 +64,31 @@
 
 .MMM-Gitlab-MergeRequests .canNotMerge {
     color: red;
+}
+
+.MMM-Gitlab-MergeRequests .small .project {
+    font-size: 10px;
+    line-height: 20px;
+    
+    padding-left: 0;
+    padding-right: 0;
+    text-align: left;
+}
+
+.MMM-Gitlab-MergeRequests .medium .project {
+    font-size: 15px;
+    line-height: 15px;
+    
+    padding-left: 0;
+    padding-right: 0;
+    text-align: left;
+}
+
+.MMM-Gitlab-MergeRequests .large .project {
+    font-size: 30px;
+    line-height: 32px;
+    
+    padding-left: 0;
+    padding-right: 0;
+    text-align: left;
 }

@@ -16,6 +16,7 @@ Module.register("MMM-Gitlab-MergeRequests",{
         scope: "created_by_me",
         animationSpeed: 2000,
         combineNames: false,
+        showNamespace: true,
         milestone: "",
         labels: "",
         createdAfter: "",
@@ -48,8 +49,7 @@ Module.register("MMM-Gitlab-MergeRequests",{
     },
     start: function () {
         Log.log("Starting module: " + this.name);
-        const url = this.getRequestUrl();
-        this.addGitlab(url, this.config.accessToken, this.config.reloadInterval, this.config.maxEntries, this.config.combineNames);
+        this.addGitlab(this.config);
         
         this.mergeRequestData = [];
         this.loaded = false;
@@ -59,7 +59,6 @@ Module.register("MMM-Gitlab-MergeRequests",{
 		if (this.identifier !== payload.id) {
 			return;
 		}
-    Log.warn("here 2");
 		if (notification === "MERGE_REQUESTS") {		
 				this.mergeRequestData = payload.mergeRequests;
 				this.loaded = true;
@@ -101,6 +100,7 @@ Module.register("MMM-Gitlab-MergeRequests",{
 
         for (var mr in mergeRequests){
             var mergeRequest = mergeRequests[mr];
+            console.log(mergeRequest);
             // var dateAsString = moment(mergeRequest.created_at, "x").format(this.config.dateFormat);
 
             var mrWrapper = document.createElement("tr");
@@ -121,8 +121,18 @@ Module.register("MMM-Gitlab-MergeRequests",{
 
             //title
             var titleWrapper = document.createElement("td");
-            titleWrapper.innerHTML = this.titleTransform(mergeRequest.title, this.config.wrapEvents, this.config.maxTitleLength, this.config.maxTitleLines);
-            titleWrapper.className = "title"
+            if(this.config.showNamespace){
+                var projectDiv = document.createElement("div");
+                projectDiv.innerHTML = this.titleTransform(mergeRequest.projectNamespace, this.config.wrapEvents, this.config.maxTitleLength, this.config.maxTitleLines);
+                projectDiv.className = "project"
+                titleWrapper.appendChild(projectDiv);
+            }
+
+            var titleDiv = document.createElement("div");
+            titleDiv.innerHTML = this.titleTransform(mergeRequest.title, this.config.wrapEvents, this.config.maxTitleLength, this.config.maxTitleLines);
+            titleDiv.className = "title"
+            titleWrapper.appendChild(titleDiv);
+
             mrWrapper.appendChild(titleWrapper);
 
             var timeWrapper = document.createElement("td");
@@ -224,14 +234,10 @@ Module.register("MMM-Gitlab-MergeRequests",{
         }
         return url;
     },
-    addGitlab: function (url, accessToken, reloadInterval, maxEntries, combineNames) {
+    addGitlab: function (config) {
             this.sendSocketNotification("ADD_GITLAB_INSTANCE", {
                 id: this.identifier,
-                url: url,
-                accessToken: accessToken,
-        reloadInterval: reloadInterval,
-        maxEntries: maxEntries,
-        combineNames: combineNames
+                config: config
             });
         },
     titleTransform: function (string, wrapEvents, maxLength, maxTitleLines) {
