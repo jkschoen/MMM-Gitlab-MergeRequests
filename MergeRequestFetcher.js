@@ -62,6 +62,7 @@ const MergeRequestFetcher = function (config) {
             self.broadcastEvents();
 			scheduleTimer();
         });
+        scheduleTimer();
 	};
 	
 	const getMergeRequestUrl = function(config) {
