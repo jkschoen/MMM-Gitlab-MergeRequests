@@ -68,7 +68,14 @@ const MergeRequestFetcher = function (config) {
 	const getMergeRequestUrl = function(config) {
         let url = config.gitlabUrl;
         if(!url.endsWith('/') && !url.endsWith('\\')){
-            url = url + "/api/v4/merge_requests?";
+            url += "/api/v4";
+            
+            // append "groups/{gitlab group config}" if the gitlab group variable is set
+            // to use the group specific merge requests api
+            // docs: https://docs.gitlab.com/ee/api/merge_requests.html#list-group-merge-requests
+            if (!!config.gitlabGroup) url += "groups/" + config.gitlabGroup
+
+            url += "/merge_requests?";
         }
         url = url + "page=1&per_page="+(config.maxEntries*2);
         url = url + "&state="+config.state;

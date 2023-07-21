@@ -44,6 +44,7 @@ this to return the items you care about.
 | `tableClass`     | Name of the classes issued from `main.css`. <br><br>**Possible values:** xsmall, small, medium, large, xlarge. <br> **Default value:** _small._
 | `reloadInterval` | How often does the content needs to be fetched? (Seconds) <br><br> **Possible values:** `1` - `86400` <br> **Default value:** `300` (5 minutes)
 | `maxEntries`     | The maximum number of events shown. <br><br> **Possible values:** `0` - `100` <br> **Default value:** `10`
+| `gitlabGroup`    | The ID of your group that you want to get the merge requests from <br> **Default Value:** `""`
 | `maxTitleLength` | The maximum title length. <br><br> **Possible values:** `10` - `50` <br> **Default value:** `25`
 | `wrapEvents`     | Wrap event titles to multiple lines. Breaks lines at the length defined by `maxTitleLength`. <br><br> **Possible values:** `true` or `false` <br> **Default value:** `false`
 | `fade`           | Fade the future events to black. (Gradient) <br><br> **Possible values:** `true` or `false` <br> **Default value:** `true` |
