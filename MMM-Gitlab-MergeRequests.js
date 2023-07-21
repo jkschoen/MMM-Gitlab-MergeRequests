@@ -37,6 +37,7 @@ Module.register("MMM-Gitlab-MergeRequests",{
         environmnet: "",
         deployedBefore: "",
         deployedAfter: "",
+        gitlabGroup: ""
     },
     
     // Define required scripts.
