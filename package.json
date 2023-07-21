@@ -8,5 +8,7 @@
     "devDependencies": {
     },
     "dependencies": {
+      "request": "^2.88.2",
+      "valid-url": "^1.0.9"
     }
   }

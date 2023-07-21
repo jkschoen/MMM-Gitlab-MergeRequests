@@ -12,6 +12,8 @@ this to return the items you care about.
    ```
    cd <Your MagicMirror Directory>/modules
    git clone https://github.com/jkschoen/MMM-Gitlab-MergeRequests.git
+   cd MMM-Gitlab-MergeRequests
+   npm ci # install dependencies with pinned versions
    ```
 3. Edit the `config/config.js` file to add our module, and edit the configuration 
    to your liking. Below is an example configuration to give you an idea.
